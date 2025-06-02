@@ -10,13 +10,13 @@ const todos = ref([
     id: nanoid(10),
     title: 'Learn Vue3',
     completed: false,
-    content: 'Learn Vue3',
+    content: '# Learn Vue3',
   },
   {
     id: nanoid(10),
     title: 'Learn Vue2',
     completed: false,
-    content: 'Learn Vue2',
+    content: '# Learn Vue2',
   },
 ])
 const visability = ref('all')
@@ -197,6 +197,7 @@ const unCompletedCounter = computed(() => {
   padding: 0 16px;
   margin: 0 auto;
   max-width: 720px;
+  margin-top: 150px;
 }
 .input-group {
   margin-top: 50px;
