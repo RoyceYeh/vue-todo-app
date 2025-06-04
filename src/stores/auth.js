@@ -19,7 +19,7 @@ export const useAuthStore = defineStore('auth', () => {
   const userId = computed(() => user.value?.uid || null)
   // 新增：取得用戶顯示名稱
   const userDisplayName = computed(() => {
-    return user.value?.displayName || user.value?.email || '用戶'
+    return user.value?.displayName || '用戶'
   })
 
   // Actions

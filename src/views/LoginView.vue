@@ -42,14 +42,11 @@ const handleLogin = async (event) => {
 
   // 呼叫 store 的登入方法
   const result = await authStore.login(loginForm.value.email, loginForm.value.password)
-  console.log(result)
 
   // 登入成功後跳轉到首頁
   if (result.success) {
     router.push('/')
   }
-
-  console.log(authStore.getErrorMessage())
 }
 
 // 處理註冊表單提交
@@ -66,7 +63,11 @@ const handleRegister = async (event) => {
   }
 
   // 呼叫 store 的註冊方法
-  const result = await authStore.register(registerForm.value.email, registerForm.value.password)
+  const result = await authStore.register(
+    registerForm.value.email,
+    registerForm.value.password,
+    registerForm.value.name,
+  )
 
   // 註冊成功後跳轉到首頁
   if (result.success) {

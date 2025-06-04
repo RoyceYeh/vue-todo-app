@@ -3,12 +3,12 @@ import { getAuth } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyBn58YfUqCXrR0fdCLoAe0vpjukqo0Smlw',
-  authDomain: 'mock-jwi.firebaseapp.com',
-  projectId: 'mock-jwi',
-  storageBucket: 'mock-jwi.firebasestorage.app',
-  messagingSenderId: '742658641508',
-  appId: '1:742658641508:web:9f55b38c69dda3b0629971',
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
 }
 
 // Initialize Firebase

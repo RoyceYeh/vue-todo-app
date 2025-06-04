@@ -47,18 +47,18 @@ const closeMenu = () => {
       <nav class="nav">
         <ul class="row">
           <li>
-            <RouterLink to="/" @click="closeMenu">Home</RouterLink>
+            <RouterLink to="/" @click="closeMenu">首頁</RouterLink>
           </li>
 
           <!-- 未登入時顯示登入按鈕 -->
           <li v-if="!authStore.isAuthenticated">
-            <RouterLink :to="{ name: 'Login' }" @click="closeMenu">Login</RouterLink>
+            <RouterLink :to="{ name: 'Login' }" @click="closeMenu">登入</RouterLink>
           </li>
 
           <!-- 已登入時顯示用戶資訊和登出按鈕 -->
           <template v-if="authStore.isAuthenticated">
             <li class="user-info">
-              <span class="user-email">{{ authStore.user?.email }}</span>
+              <span class="user-name">{{ authStore.userDisplayName }}</span>
             </li>
             <li>
               <a href="#" @click.prevent="handleLogout" class="logout-btn">
@@ -81,11 +81,11 @@ header {
   position: relative;
 
   .container {
-    max-width: 1232px;
+    max-width: 95%;
     margin-left: auto;
     margin-right: auto;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
 
     @media screen and (max-width: 1280px) {
@@ -164,6 +164,7 @@ header {
             color: #4e4e4e;
             padding: 0 10px;
             font-weight: bold;
+            text-transform: capitalize;
           }
         }
 

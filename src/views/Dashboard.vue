@@ -1,27 +1,16 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { nanoid } from 'nanoid'
+import { computed, onMounted, ref } from 'vue'
 import { marked } from 'marked'
 import debounce from 'debounce'
+import { useAuthStore } from '@/stores/auth'
+import { useTodosStore } from '@/stores/todos'
+
+const authStore = useAuthStore()
+const todosStore = useTodosStore()
 
 const newTodo = ref('')
-const todos = ref([
-  {
-    id: nanoid(10),
-    title: 'Learn Vue3',
-    completed: false,
-    content: '# Learn Vue3',
-  },
-  {
-    id: nanoid(10),
-    title: 'Learn Vue2',
-    completed: false,
-    content: '# Learn Vue2',
-  },
-])
+const todos = computed(() => todosStore.todos)
 const visability = ref('all')
-const cacheTodo = ref({})
-const cacheTitle = ref('')
 const editorShow = ref(false)
 const saveShow = ref(false)
 const input = ref('')
@@ -33,25 +22,36 @@ const update = debounce((e) => {
   input.value = e.target.value
 }, 100)
 
-const addTodo = (e) => {
+onMounted(async () => {
+  if (authStore.isAuthenticated) {
+    await todosStore.fetchTodos()
+  }
+})
+
+const addTodo = async (e) => {
   const value = newTodo.value.trim()
   console.log(value)
   if (value) {
-    todos.value.push({
-      id: nanoid(10),
+    // todos.value.push({
+    //   id: nanoid(10),
+    //   title: newTodo.value,
+    //   completed: false,
+    //   content: `# ${newTodo.value}`,
+    // })
+    const newTodoData = {
       title: newTodo.value,
       completed: false,
       content: `# ${newTodo.value}`,
-    })
+    }
+    await todosStore.addTodo(newTodoData)
+    newTodo.value = ''
   }
-
-  newTodo.value = ''
 }
 
-const removeTodo = (item) => {
+const removeTodo = async (item) => {
   editorShow.value = false
   saveShow.value = false
-  todos.value = todos.value.filter((todo) => todo.id !== item.id)
+  await todosStore.deleteTodo(item.id)
 }
 
 const editTodo = (item) => {
@@ -62,11 +62,13 @@ const editTodo = (item) => {
   currentEditingId.value = item.id
 }
 
-const saveEdit = () => {
+const saveEdit = async () => {
   if (currentEditingId.value) {
     // 找到要更新的待辦事項
     const todoIndex = todos.value.findIndex((todo) => todo.id === currentEditingId.value)
-
+    await todosStore.updateTodo(currentEditingId.value, {
+      content: currentEditContent.value,
+    })
     if (todoIndex !== -1) {
       // 更新內容
       todos.value[todoIndex].content = currentEditContent.value
@@ -76,8 +78,15 @@ const saveEdit = () => {
   saveShow.value = false
 }
 
-const clearAll = () => {
-  todos.value = []
+// 更新 todo 完成狀態
+const updateTodoStatus = async (todo) => {
+  await todosStore.updateTodo(todo.id, {
+    completed: todo.completed,
+  })
+}
+
+const clearAll = async () => {
+  await todosStore.clearAllTodos()
 }
 
 const filterTodos = computed(() => {
@@ -110,7 +119,13 @@ const unCompletedCounter = computed(() => {
       <div class="input-group-prepend">
         <span class="input-group-text" id="basic-addon1">待辦事項</span>
       </div>
-      <input type="text" class="form-control" placeholder="準備要做的任務" v-model="newTodo" />
+      <input
+        type="text"
+        class="form-control"
+        placeholder="準備要做的任務"
+        v-model="newTodo"
+        @keyup.enter="addTodo"
+      />
       <div class="input-group-append">
         <button class="btn" type="button" @click="addTodo">新增</button>
       </div>
@@ -148,14 +163,15 @@ const unCompletedCounter = computed(() => {
         </ul>
       </div>
       <ul class="list-group">
-        <li class="list-group-item" v-for="item in filterTodos">
-          <div class="d-flex" v-if="item.id !== cacheTodo.id">
+        <li class="list-group-item" v-for="item in filterTodos" :key="item.id">
+          <div class="d-flex">
             <div class="form-check">
               <input
                 type="checkbox"
                 class="form-check-input"
                 :id="item.id"
                 v-model="item.completed"
+                @change="updateTodoStatus(item)"
               />
               <label class="form-check-label" :for="item.id" :class="{ completed: item.completed }">
                 {{ item.title }}
@@ -168,12 +184,6 @@ const unCompletedCounter = computed(() => {
               <span> &times; </span>
             </button>
           </div>
-          <input
-            type="text"
-            class="form-control"
-            v-if="item.id === cacheTodo.id"
-            v-model="cacheTitle"
-          />
         </li>
       </ul>
       <div class="card-footer d-flex">
