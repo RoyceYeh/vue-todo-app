@@ -221,6 +221,7 @@ const unCompletedCounter = computed(() => {
   .form-control {
     flex-grow: 1;
     padding: 8px 16px;
+    font-size: 16px;
   }
   .input-group-append {
     background: #ddd;
@@ -381,5 +382,19 @@ const unCompletedCounter = computed(() => {
       color: #fff;
     }
   }
+}
+
+@media screen and (max-width: 768px) {
+  .input-group {
+ 
+  .form-control {
+    padding: 4px 8px;
+  }
+  .input-group-append {
+    .btn {
+      padding: 8px 16px;
+    }
+  }
+}
 }
 </style>
