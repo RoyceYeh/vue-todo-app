@@ -386,12 +386,16 @@ const unCompletedCounter = computed(() => {
 
 @media screen and (max-width: 768px) {
   .input-group {
- 
+    .input-group-prepend {
+      font-size: 14px;
+    }
   .form-control {
-    padding: 4px 8px;
+    font-size: 14px;
+    padding: 8px 8px;
   }
   .input-group-append {
     .btn {
+      font-size: 14px;
       padding: 8px 16px;
     }
   }
