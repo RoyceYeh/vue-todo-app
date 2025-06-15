@@ -63,7 +63,7 @@ body {
   overflow-x: hidden;
   min-height: 100vh;
   color: #000;
-  background: var(--color-background);
+  background: #fff;
   transition:
     color 0.5s,
     background-color 0.5s;
