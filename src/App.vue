@@ -6,9 +6,14 @@ import Header from './components/Header.vue'
 <template>
   <Header></Header>
 
-  <div>
+  <div class="project">
     <RouterView />
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+  .project{
+    background-color: #fff;
+    padding-top: 150px;
+  }
+</style>

@@ -207,7 +207,6 @@ const unCompletedCounter = computed(() => {
   padding: 0 16px;
   margin: 0 auto;
   max-width: 720px;
-  margin-top: 150px;
 }
 .input-group {
   margin-top: 50px;
