@@ -150,8 +150,14 @@ const toggleForm = () => {
 .login-page {
   width: 100%;
   max-width: 360px;
-  padding: 8% 0 0;
-  margin: 100px auto;
+  padding: 4% 0 0;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 980px) {
+  .login-page {
+    padding: 8% 0 0;
+  }
 }
 
 .form {

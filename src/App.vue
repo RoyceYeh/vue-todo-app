@@ -12,8 +12,9 @@ import Header from './components/Header.vue'
 </template>
 
 <style scoped>
-  .project{
-    background-color: #fff;
-    padding-top: 150px;
-  }
+.project {
+  background-color: #fff;
+  padding-top: 150px;
+  padding-bottom: 50px;
+}
 </style>
